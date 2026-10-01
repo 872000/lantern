@@ -1,0 +1,6 @@
+corpus/
+crawl/
+lantern.db
+__pycache__/
+*.pyc
+.venv/

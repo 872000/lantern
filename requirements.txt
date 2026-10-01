@@ -1,0 +1,4 @@
+# Project Lantern dependencies.
+# The web UI and CLI are stdlib-only; numpy is used by the ranking/index
+# pipeline (Builder 2) for vectorized BM25 scoring.
+numpy

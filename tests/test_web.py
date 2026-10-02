@@ -301,7 +301,7 @@ class TestCLISearch(unittest.TestCase):
             with redirect_stdout(buf):
                 rc = cli.cmd_eval(args)
             self.assertEqual(rc, 0)
-            self.assertIn("isn't present yet", buf.getvalue())
+            self.assertIn("isn't available", buf.getvalue())
 
 
 class TestAppTestability(unittest.TestCase):

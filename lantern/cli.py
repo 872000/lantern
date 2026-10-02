@@ -74,7 +74,7 @@ def cmd_build(args) -> int:
         print("Build complete.")
     else:
         print("Build finished with skipped/failed stages (see above).")
-        print("Sibling builders are still landing their modules — re-run to fill gaps.")
+        print("Fix the reported issue, then re-run: python3 -m lantern.cli build")
     return 0
 
 
@@ -158,8 +158,8 @@ def cmd_stats(args) -> int:
 def cmd_eval(args) -> int:
     mod = _import_or_none("lantern.eval")
     if mod is None or not callable(getattr(mod, "run_eval", None)):
-        print("Evaluation module (lantern.eval.run_eval) isn't present yet.")
-        print("Sibling builders are still landing their modules.")
+        print("Evaluation module (lantern.eval.run_eval) isn't available.")
+        print("Re-run the build first: python3 -m lantern.cli build")
         return 0
     mod.run_eval()
     return 0

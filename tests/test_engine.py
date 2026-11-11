@@ -17,7 +17,7 @@ from lantern import (
     tokenize,
 )
 from lantern.query import PhraseClause, TermClause
-from lantern.rank import _bm25_scores
+from lantern.rank import _bm25_scores, _minmax_norm
 from tests.conftest import PAGES, build_db, write_frontier
 
 
@@ -295,6 +295,20 @@ class TestBM25:
         monkeypatch.setenv("LANTERN_DB", db)
         ids = [r["id"] for r in search("python")]
         assert ids == ["p0001", "p0002"]
+
+
+class TestMinMaxNorm:
+    def test_empty_scores(self):
+        assert _minmax_norm({}) == {}
+
+    def test_constant_scores_normalize_to_one(self):
+        assert _minmax_norm({1: 3.5, 2: 3.5, 3: 3.5}) == {1: 1.0, 2: 1.0, 3: 1.0}
+
+    def test_scales_to_zero_one_range(self):
+        assert _minmax_norm({1: 0.0, 2: 5.0, 3: 10.0}) == {1: 0.0, 2: 0.5, 3: 1.0}
+
+    def test_single_doc_normalizes_to_one(self):
+        assert _minmax_norm({7: 42.0}) == {7: 1.0}
 
 
 # ---------------------------------------------------------------- query parser
